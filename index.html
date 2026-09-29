@@ -216,7 +216,7 @@ function setDefaultOrbit() {
 
 // ---------------- carregar modelo ----------------
 const loader = new GLTFLoader();
-loader.load('model.glb?v=4', gltf => {
+loader.load('model.glb?v=5', gltf => {
   const root = gltf.scene; scene.add(root);
   const wood = woodTexture(), tile = tileTexture();
   root.traverse(o => {
@@ -234,8 +234,8 @@ loader.load('model.glb?v=4', gltf => {
     if (mn === 'Teto_Branco') { o.castShadow = true; }
     m.side = /Vidro|Terreno/.test(mn) ? THREE.DoubleSide : THREE.FrontSide;   // sólidos fechados com normais para fora
     if (/^Piso[01]_Paredes|^Embasamento/.test(obj)) pocheSrc.push(o);
-    // conjuntos para colisões
-    const noCol = /^(Vidros|Caixilharia|Porta_Entrada|Portas_Interiores|Terreno)/.test(obj) || grp === 'Cobertura' || /Vidro/.test(mn) && grp !== 'Mobiliario';
+    // conjuntos para colisões (estores exteriores não bloqueiam a passagem nas portas envidraçadas)
+    const noCol = /^(Vidros|Caixilharia|Porta_Entrada|Portas_Interiores|Terreno)/.test(obj) || grp === 'Cobertura' || grp === 'Estores' || /Vidro/.test(mn) && grp !== 'Mobiliario';
     if (!noCol) wallMeshes.push(o);
     if (grp === 'Mobiliario') furnMeshes.push(o);
     if (/^(Piso1_Laje_Pavimento|Piso1_Pavimento_Ceramico|Escada_Interior|Piso0_Laje_Terreo|Terraco_34m2|Varanda_18m2|Terreno)/.test(obj)) floorMeshes.push(o);
