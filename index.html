@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-PT"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:,">
+<meta name="theme-color" content="#d9dbdf">
+<meta name="description" content="Moradia Meijinhos – modelo 3D interativo à escala real.">
+<title>Moradia Meijinhos – Modelo 3D</title>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+<style>
+ html,body{margin:0;height:100%;background:#d9dbdf;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;overflow:hidden}
+ body{height:100vh;height:100dvh}
+ model-viewer{display:block;width:100%;height:100%;--poster-color:#d9dbdf;--progress-bar-color:#555}
+ .info{position:absolute;left:12px;top:12px;top:calc(12px + env(safe-area-inset-top));background:rgba(255,255,255,.9);padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.45;max-width:330px;box-shadow:0 1px 6px rgba(0,0,0,.12)}
+ .info summary{font-weight:700;font-size:14px;cursor:pointer;list-style:none}
+ .info summary::-webkit-details-marker{display:none}
+ .info summary::after{content:" \25BE";font-weight:400;color:#666}
+ .info[open] summary::after{content:" \25B4"}
+ .info p{margin:6px 0 0}
+ .hint{position:absolute;left:50%;bottom:16px;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(0,0,0,.62);color:#fff;padding:8px 16px;border-radius:999px;font-size:14px;white-space:nowrap;pointer-events:none;transition:opacity .6s}
+ .hint.hide{opacity:0}
+ noscript,.fallback{position:absolute;inset:auto 12px 60px 12px;text-align:center;font-size:14px}
+ @media (max-width:600px){
+  .info{left:8px;right:8px;top:calc(8px + env(safe-area-inset-top));max-width:none;font-size:12px;padding:8px 12px}
+  .hint{font-size:13px;padding:7px 14px}
+ }
+</style></head><body>
+<model-viewer id="mv" src="model.glb" alt="Modelo 3D da Moradia Meijinhos" camera-controls touch-action="none"
+  auto-rotate auto-rotate-delay="3000" rotation-per-second="12deg"
+  camera-orbit="-35deg 62deg 42m" field-of-view="35deg" min-camera-orbit="auto auto 5m" max-camera-orbit="auto auto 120m"
+  shadow-intensity="0.8" shadow-softness="0.9" exposure="1.05" environment-image="neutral" interaction-prompt="none">
+</model-viewer>
+<details class="info" id="info" open><summary>Moradia – Meijinhos</summary>
+<p>Modelo 3D à escala real (1 unidade = 1 m)<br>
+Implantação 14,20 × 24,50 m (+ varanda 1,20 m)<br>
+Piso principal + piso inferior (garagem) sob a ala dos quartos<br>
+Deslocar: botão direito / 2 dedos</p></details>
+<div class="hint" id="hint">Arraste para rodar, scroll para aproximar</div>
+<noscript>É necessário JavaScript para ver o modelo 3D.</noscript>
+<script>
+ const mv = document.getElementById('mv'), hint = document.getElementById('hint');
+ if (matchMedia('(max-width:600px)').matches) document.getElementById('info').open = false;
+ if (innerHeight > innerWidth) mv.cameraOrbit = '-35deg 62deg 60m'; // enquadramento em ecrã vertical
+ const hide = () => hint.classList.add('hide');
+ mv.addEventListener('camera-change', e => { if (e.detail.source === 'user-interaction') hide(); });
+ setTimeout(hide, 12000);
+</script>
+</body></html>
